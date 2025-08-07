@@ -4,11 +4,13 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./ldap
+      ../../modules/slurm/server.nix
       (import ../../modules/network.nix {
         hostname = "ada";
         interface = "enp1s0";
         ip = "10.40.18.12";
       })
+      ../../modules/slurm/server.nix
     ];
 
   # Bootloader.

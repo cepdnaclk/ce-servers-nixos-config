@@ -4,9 +4,10 @@
   inputs = {
     # TODO: Remove magic number for OS version (24.11)
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+    sops-nix.url = "github:Mic92/sops-nix";
   };
 
-  outputs = { self, nixpkgs, ... }@inputs: 
+  outputs = { self, nixpkgs, sops-nix, ... }@inputs: 
   let
     defaultModules = import ./modules;
   in 
@@ -16,6 +17,7 @@
       system = "x86_64-linux";
       modules = [
         defaultModules
+        # sops-nix.nixosModules.sops
         ./hosts/ada
       ];
     };
