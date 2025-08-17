@@ -12,3 +12,6 @@ Configurations can be deployed remotely to the servers using following command
 ```
 nix shell nixpkgs#nixos-rebuild -c nixos-rebuild switch --flake .#<server-name> --target-host <user@server-ip> --build-host <server-name> --use-remote-sudo
 ```
+
+# Creating Munged Key
+dd if=/dev/urandom bs=1 count=1024 | base64 -w0

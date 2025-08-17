@@ -1,4 +1,4 @@
-{ hostname, interface, ip }:
+{ hostname, interface, ip, ... }:
 {
   networking = {
     hostName = hostname;

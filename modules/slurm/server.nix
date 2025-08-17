@@ -1,38 +1,8 @@
-{ pkgs, ... }:
+{ pkgs, interface, ... }:
 {
-  # ==================== TODO: Remove ====================
-  networking.firewall.interfaces."enp1s0" = {
-    allowedTCPPortRanges = [{
-      from = 60001;
-      to = 63000;
-    }];
-  };
-
-  services.slurm = {
-    clusterName = "ce-cluster";
-    controlMachine = "ada";
-    controlAddr = "ada-link";
-
-    nodeName = [
-      "aiken"
-    ];
-
-    partitionName = [
-      "debug Nodes=aiken Default=YES MaxTime=INFINITE State=UP"
-    ];
-
-    extraConfig = ''
-      AccountingStorageHost=ada
-      AccountingStorageType=accounting_storage/slurmdbd
-
-      TCPTimeout=5
-
-      SrunPortRange=60001-63000
-      ResumeTimeout=600
-
-    '';
-  };
-  # ==================== TODO: End Remove ====================
+  imports = [
+    ./base.nix
+  ];
 
   systemd.services = {
     slurmdbd = {
@@ -57,7 +27,7 @@
     };
   };
 
-  networking.firewall.interfaces."enp1s0".allowedTCPPorts =
+  networking.firewall.interfaces."${interface}".allowedTCPPorts =
     [
       6817 # Default port for slurmctld
       #6819 # Default port for slurmdbd. Not needed, at it runs on localhost
@@ -89,7 +59,7 @@
       settings.mysqld = {
         bind-address = "localhost";
 
-        # recommendations from: https://slurm.schedmd.com/accounting.html#mysql-configuration
+        # Recommendations from: https://slurm.schedmd.com/accounting.html#mysql-configuration
         innodb_buffer_pool_size = "1024M";
         innodb_log_file_size = "64M";
         innodb_lock_wait_timeout = 900;

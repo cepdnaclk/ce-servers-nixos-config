@@ -1,12 +1,12 @@
 # https://mynixos.com/nixpkgs/options/services.slurm 
 # https://discourse.nixos.org/t/advice-for-simple-nixos-setup-of-local-slurm-cluster-for-home/1995/4
 # https://github.com/CRTified/nix-cluster/tree/main
-{ interface }:
-{ lib, ... }:
+{ interface, ... }:
 {
+  imports = [
+    ./munged.nix
+  ];
 
-  # Optional: expose slurm ports in firewall
-  # networking.firewall.allowedTCPPorts = [ 6817 6818 ];
   networking.firewall.interfaces."${interface}" = {
     allowedTCPPortRanges = [{
       from = 60001;
@@ -17,18 +17,20 @@
   services.slurm = {
     clusterName = "ce-cluster";
     controlMachine = "ada";
-    controlAddr = "ada-link";
+    controlAddr = "10.40.18.12";
 
     nodeName = [
+      #"10.40.18.6"
       "aiken"
     ];
 
     partitionName = [
+      #"debug Nodes=10.40.18.6 Default=YES MaxTime=INFINITE State=UP"
       "debug Nodes=aiken Default=YES MaxTime=INFINITE State=UP"
     ];
 
     extraConfig = ''
-      AccountingStorageHost=ada-link
+      AccountingStorageHost=ada
       AccountingStorageType=accounting_storage/slurmdbd
 
       TCPTimeout=5

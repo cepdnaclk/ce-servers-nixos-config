@@ -15,10 +15,30 @@
     # Ada - LDAP Server
     nixosConfigurations.ada = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
+      specialArgs = {
+        hostname = "ada";
+        interface = "enp1s0";
+        ip = "10.40.18.12";
+      };
       modules = [
         defaultModules
-        # sops-nix.nixosModules.sops
+        sops-nix.nixosModules.sops
         ./hosts/ada
+      ];
+    };
+
+    # Aiken - HPC Server
+    nixosConfigurations.aiken = nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      specialArgs = {
+        hostname = "aiken";
+        interface = "eno1";
+        ip = "10.40.18.6";
+      };
+      modules = [
+        defaultModules
+        sops-nix.nixosModules.sops 
+        ./hosts/aiken
       ];
     };
   };

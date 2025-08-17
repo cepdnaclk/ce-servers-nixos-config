@@ -3,9 +3,11 @@ keys:
     - &sankap age1l9w95jam7cz9nkdyvcvt2usjzvj846355l356llr49j86j7pdd4qfcvr05 
   - &hosts:
     - &ada age1r5qlkqys0a4vmn0vy594caand0rv3f75pqdqe4a9rpcphhklz44qec0cdr
+    - &aiken age1vsfuf8z8jdq0h44k29ks2rq02afasp3mx7jgy3r7t37y86v0syssjyr6kk
 creation_rules:
   - path_regex: secrets.yaml$
     key_groups:
     - age: 
       - *sankap
       - *ada
+      - *aiken

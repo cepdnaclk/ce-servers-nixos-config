@@ -1,26 +1,20 @@
 { config, pkgs, ... }:
 {
-  imports =
-    [ # Include the results of the hardware scan.
+  imports = [
       ./hardware-configuration.nix
       ./ldap
       ../../modules/slurm/server.nix
-      (import ../../modules/network.nix {
-        hostname = "ada";
-        interface = "enp1s0";
-        ip = "10.40.18.12";
-      })
-      ../../modules/slurm/server.nix
     ];
 
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
   # Enable remote deployments only
-  services.openssh.permitRootLogin = "prohibit-password";
-  services.openssh.passwordAuthentication = false;
+  services.openssh.settings.PermitRootLogin = "prohibit-password";
+  services.openssh.settings.PasswordAuthentication = false;
 
-  # TODO: Move to global location
-  system.stateVersion = "24.11";
+  # TODO: Move to central location
+  sops.age.keyFile = "/home/ceadmin/.config/sops/age/keys.txt";
+
+  networking.hosts = {
+    "10.40.18.6" = ["aiken"];
+  };
+
 }

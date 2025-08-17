@@ -1,6 +1,7 @@
 { ... }:
 {
   imports = [  
+    ./network.nix
     ./nix.nix
     ./system.nix
     ./packages.nix
